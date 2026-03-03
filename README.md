@@ -20,12 +20,37 @@
 
 ### 安装
 
+#### 方式 1: 通过 ClawHub（推荐，适合 AI Agent 使用）
+
+```bash
+# 1. 安装 skill
+clawhub install video-generator
+
+# 2. 克隆项目
+git clone https://github.com/ZhenRobotics/openclaw-video.git ~/openclaw-video
+cd ~/openclaw-video
+
+# 3. 安装依赖
+npm install
+
+# 4. 设置 API Key
+export OPENAI_API_KEY="sk-..."
+
+# 5. 验证安装
+./agents/video-cli.sh help
+```
+
+**ClawHub Skill 链接**: https://clawhub.ai/ZhenStaff/video-generator
+
+#### 方式 2: 直接从 GitHub
+
 ```bash
 # 1. 克隆项目
+git clone https://github.com/ZhenRobotics/openclaw-video.git
 cd openclaw-video
 
 # 2. 安装依赖
-pnpm install
+npm install
 
 # 3. 设置 API Key
 export OPENAI_API_KEY="sk-..."
