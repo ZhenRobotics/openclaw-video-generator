@@ -1,12 +1,39 @@
 {
   "name": "openclaw-video",
   "version": "1.0.0",
-  "description": "OpenClaw automated video generation with Remotion",
+  "description": "Automated video generation pipeline with OpenAI TTS, Whisper, and Remotion - from text script to professional short videos",
+  "main": "src/index.ts",
+  "bin": {
+    "openclaw-video": "./agents/video-cli.sh"
+  },
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion render",
     "render": "remotion render Main out/video.mp4"
   },
+  "keywords": [
+    "video-generation",
+    "remotion",
+    "openai",
+    "tts",
+    "whisper",
+    "automation",
+    "video-editing",
+    "ai-video",
+    "openclaw",
+    "short-video",
+    "text-to-video"
+  ],
+  "author": "justin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZhenRobotics/openclaw-video.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ZhenRobotics/openclaw-video/issues"
+  },
+  "homepage": "https://github.com/ZhenRobotics/openclaw-video#readme",
   "dependencies": {
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -19,5 +46,8 @@
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
     "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
