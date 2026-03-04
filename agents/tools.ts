@@ -138,10 +138,12 @@ export async function render_video(params: RenderParams): Promise<{ success: boo
 
     // Ensure output path
     const videoPath = path.join(OUTPUT_DIR, output_file);
-    const absoluteAudioPath = path.resolve(audio_file);
 
-    // Call Remotion render
-    const cmd = `cd ${WORK_DIR} && pnpm exec remotion render Main "${videoPath}" --props '{"audioPath": "${absoluteAudioPath}"}'`;
+    // Note: audioPath is already set in videoConfig by timestamps-to-scenes.js
+    // The audio file has been copied to public/ directory, so we don't need to pass it as a prop
+
+    // Call Remotion render (no props needed, uses videoConfig.audioPath)
+    const cmd = `cd ${WORK_DIR} && pnpm exec remotion render Main "${videoPath}"`;
 
     console.log('[Remotion] Rendering video...');
     execSync(cmd, { encoding: 'utf-8', stdio: 'inherit' });

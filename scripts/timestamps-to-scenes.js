@@ -42,12 +42,19 @@ for (let i = 1; i < args.length; i++) {
 
 // Auto-infer audio path from timestamps filename if not specified
 if (!audioPath && inputFile.includes('-timestamps.json')) {
-  const fullAudioPath = inputFile.replace('-timestamps.json', '.mp3');
+  const fullAudioPath = path.resolve(inputFile.replace('-timestamps.json', '.mp3'));
 
   // Copy audio file to public directory if it exists
   if (fs.existsSync(fullAudioPath)) {
     const audioFileName = path.basename(fullAudioPath);
-    const publicAudioPath = path.join('public', audioFileName);
+    const scriptDir = __dirname.endsWith('scripts') ? path.join(__dirname, '..') : __dirname;
+    const publicAudioPath = path.resolve(scriptDir, 'public', audioFileName);
+
+    // Create public directory if it doesn't exist
+    const publicDir = path.dirname(publicAudioPath);
+    if (!fs.existsSync(publicDir)) {
+      fs.mkdirSync(publicDir, { recursive: true });
+    }
 
     // Copy to public directory
     fs.copyFileSync(fullAudioPath, publicAudioPath);

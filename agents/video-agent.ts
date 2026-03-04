@@ -214,6 +214,7 @@ function extractScript(input: string): string {
   // Remove common prefixes
   let script = input
     .replace(/^(帮我|请|麻烦)?(生成|制作|做|创建|分析|优化|检查)?(一下)?(一个|个)?(关于|有关)?/i, '')
+    .replace(/^(视频|短视频|影片)[：:]/i, '')  // Remove "视频：" prefix
     .replace(/^(这是|我的|这个)?脚本[：:]/i, '')
     .trim();
 

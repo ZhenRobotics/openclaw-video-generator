@@ -68,16 +68,45 @@ echo "  Text: $text" >&2
 echo "  Voice: $voice" >&2
 echo "  Speed: $speed" >&2
 
-curl -sS https://api.openai.com/v1/audio/speech \
-  -H "Authorization: Bearer $OPENAI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d "{
-    \"model\": \"tts-1\",
-    \"input\": \"$text\",
-    \"voice\": \"$voice\",
-    \"speed\": $speed
-  }" \
-  --output "$out"
+# Use jq to properly construct JSON payload to avoid escaping issues
+json_payload=$(jq -n \
+  --arg model "tts-1" \
+  --arg input "$text" \
+  --arg voice "$voice" \
+  --argjson speed "$speed" \
+  '{model: $model, input: $input, voice: $voice, speed: $speed}')
+
+# Use custom API base if set, otherwise use OpenAI
+api_base="${OPENAI_API_BASE:-https://api.openai.com/v1}"
+
+# Retry logic for unstable networks
+max_retries=3
+retry_count=0
+success=false
+
+while [[ $retry_count -lt $max_retries ]]; do
+  if curl -sS "${api_base}/audio/speech" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "$json_payload" \
+    --output "$out" 2>&1; then
+    if [[ -f "$out" ]] && [[ -s "$out" ]]; then
+      success=true
+      break
+    fi
+  fi
+
+  retry_count=$((retry_count + 1))
+  if [[ $retry_count -lt $max_retries ]]; then
+    echo "⚠️  Attempt $retry_count failed, retrying in 2s..." >&2
+    sleep 2
+  fi
+done
+
+if [[ "$success" = false ]]; then
+  echo "❌ Failed after $max_retries attempts" >&2
+  exit 1
+fi
 
 if [[ -f "$out" ]]; then
   size=$(du -h "$out" | cut -f1)

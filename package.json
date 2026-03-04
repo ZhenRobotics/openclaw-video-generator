@@ -6,10 +6,26 @@
   "bin": {
     "openclaw-video": "./agents/video-cli.sh"
   },
+  "files": [
+    "src/",
+    "agents/",
+    "scripts/",
+    "public/",
+    "docs/",
+    "audio/example-timestamps.json",
+    "remotion.config.ts",
+    "tsconfig.json",
+    "README.md",
+    "LICENSE",
+    "QUICKSTART.md",
+    "generate-for-openclaw.sh"
+  ],
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion render",
-    "render": "remotion render Main out/video.mp4"
+    "render": "remotion render Main out/video.mp4",
+    "prepublishOnly": "echo 'Publishing openclaw-video...'",
+    "postinstall": "echo 'Thanks for installing openclaw-video! Run: openclaw-video help'"
   },
   "keywords": [
     "video-generation",
