@@ -37,7 +37,7 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
         style={{
           fontSize: 80,
           fontWeight: 'bold',
-          color: '#FFFFFF',
+          color: scene.color || '#FFFFFF',
           textAlign: 'center',
           whiteSpace: 'pre-line',
           transform: `scale(${animation.scale}) translateY(${animation.translateY}px)`,

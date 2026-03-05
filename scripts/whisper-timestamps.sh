@@ -76,7 +76,7 @@ while [[ $retry_count -lt $max_retries ]]; do
     -H "Authorization: Bearer $OPENAI_API_KEY" \
     -H "Accept: application/json" \
     -F "file=@${in}" \
-    -F "model=whisper-1" \
+    -F "model=gpt-4o-mini-transcribe" \
     -F "language=zh" \
     -F "response_format=verbose_json" \
     -F "timestamp_granularities[]=segment" \

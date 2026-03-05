@@ -8,6 +8,7 @@ export interface SceneData {
   number?: string;      // Optional number to highlight
   highlight?: string;   // Optional text to highlight
   xiaomo?: XiaomoAction; // Optional mascot action
+  color?: string;       // Optional main title color (e.g., '#FF0000')
 }
 
 export type SceneType =
