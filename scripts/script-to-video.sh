@@ -7,11 +7,19 @@ cd "$(dirname "$0")/.."
 usage() {
   cat >&2 <<'EOF'
 Usage:
-  script-to-video.sh <script.txt> [--voice nova] [--speed 1.15]
+  script-to-video.sh <script.txt> [options]
 
-Example:
+Options:
+  --voice <name>           TTS voice (alloy/echo/nova/shimmer, default: nova)
+  --speed <number>         TTS speed (0.25-4.0, default: 1.15)
+  --bg-video <file>        Background video file path
+  --bg-opacity <number>    Background video opacity (0-1, default: 0.3)
+  --bg-overlay <color>     Background overlay color (default: rgba(10, 10, 15, 0.6))
+
+Examples:
   script-to-video.sh scripts/example-script.txt
   script-to-video.sh scripts/example-script.txt --voice alloy --speed 1.2
+  script-to-video.sh scripts/example-script.txt --bg-video /path/to/bg.mp4 --bg-opacity 0.5
 
 Pipeline:
   1. Read script text
@@ -39,6 +47,9 @@ shift || true
 
 voice="nova"
 speed="1.15"
+bg_video=""
+bg_opacity="0.3"
+bg_overlay="rgba(10, 10, 15, 0.6)"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -48,6 +59,18 @@ while [[ $# -gt 0 ]]; do
       ;;
     --speed)
       speed="${2:-}"
+      shift 2
+      ;;
+    --bg-video)
+      bg_video="${2:-}"
+      shift 2
+      ;;
+    --bg-opacity)
+      bg_opacity="${2:-}"
+      shift 2
+      ;;
+    --bg-overlay)
+      bg_overlay="${2:-}"
       shift 2
       ;;
     *)
@@ -72,6 +95,9 @@ echo "=== Video Generation Pipeline ==="
 echo ""
 echo "📝 Script: $script_file"
 echo "🎤 Voice: $voice (speed: ${speed}x)"
+if [[ -n "$bg_video" ]]; then
+  echo "🎬 Background: $bg_video (opacity: $bg_opacity)"
+fi
 echo ""
 
 # Step 1: Read script text
@@ -95,7 +121,11 @@ echo ""
 
 # Step 4: Convert to Remotion scenes
 echo "Step 4/5: Converting to Remotion scenes..."
-node scripts/timestamps-to-scenes.js "$timestamps_file"
+bg_video_args=""
+if [[ -n "$bg_video" ]]; then
+  bg_video_args="--bg-video \"$bg_video\" --bg-opacity $bg_opacity --bg-overlay \"$bg_overlay\""
+fi
+eval "node scripts/timestamps-to-scenes.js \"$timestamps_file\" $bg_video_args"
 echo ""
 
 # Step 5: Render video

@@ -1,5 +1,5 @@
 import React from 'react';
-import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig } from 'remotion';
+import { AbsoluteFill, useCurrentFrame, interpolate, spring, useVideoConfig, Video, staticFile } from 'remotion';
 import { SceneData } from './types';
 
 interface SceneRendererProps {
@@ -32,6 +32,27 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
 
   return (
     <AbsoluteFill style={{ justifyContent: 'center', alignItems: 'center' }}>
+      {/* Scene-specific background video (overrides global background) */}
+      {scene.bgVideo && (
+        <>
+          <Video
+            src={staticFile(scene.bgVideo)}
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: scene.bgOpacity ?? 0.3,
+              zIndex: 0,
+            }}
+            volume={0}
+            loop
+          />
+          {/* Dark overlay for scene background */}
+          <AbsoluteFill style={{ backgroundColor: 'rgba(10, 10, 15, 0.6)', zIndex: 1 }} />
+        </>
+      )}
+
       {/* Main title */}
       <div
         style={{
@@ -43,6 +64,8 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
           transform: `scale(${animation.scale}) translateY(${animation.translateY}px)`,
           opacity: animation.opacity,
           textShadow: scene.type === 'title' ? animation.glitch : '0 4px 8px rgba(0,0,0,0.5)',
+          position: 'relative',
+          zIndex: 2,
         }}
       >
         {highlightText(scene.title, scene.highlight)}
@@ -58,6 +81,8 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
             whiteSpace: 'pre-line',
             marginTop: 40,
             opacity: interpolate(frame, [5, 15], [0, 1], { extrapolateRight: 'clamp' }),
+            position: 'relative',
+            zIndex: 2,
           }}
         >
           {highlightText(scene.subtitle, scene.highlight)}
@@ -74,6 +99,7 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
             position: 'absolute',
             top: '40%',
             transform: `scale(${spring({ frame, fps, from: 0, to: 1 })})`,
+            zIndex: 2,
           }}
         >
           {scene.number}
@@ -88,6 +114,7 @@ export const SceneRenderer: React.FC<SceneRendererProps> = ({ scene }) => {
             bottom: 100,
             right: 100,
             fontSize: 60,
+            zIndex: 2,
           }}
         >
           {getXiaomoEmoji(scene.xiaomo)}

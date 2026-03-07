@@ -8,6 +8,7 @@
 - ⏱️ **时间戳提取** - OpenAI Whisper API，精确分段识别
 - 🎬 **场景编排** - 智能检测场景类型，自动生成 Remotion 数据
 - 🎨 **赛博风格** - 线框动画、故障效果、霓虹色彩
+- 🖼️ **背景视频** - 支持自定义背景视频，可调透明度和遮罩
 - 🤖 **完全自动化** - 一行命令完成从文本到视频的全流程
 
 ## 🚀 快速开始
@@ -102,8 +103,10 @@ EOF
 
 ```bash
 ./scripts/script-to-video.sh scripts/my-video.txt \
-  --voice nova \    # 选择声音 (alloy/echo/nova/shimmer等)
-  --speed 1.15      # 语速 (0.25-4.0)
+  --voice nova \            # 选择声音 (alloy/echo/nova/shimmer等)
+  --speed 1.15 \            # 语速 (0.25-4.0)
+  --bg-video bg.mp4 \       # 背景视频 (可选)
+  --bg-opacity 0.4          # 背景透明度 (可选, 0-1)
 ```
 
 ### 3. 输出文件
@@ -276,6 +279,39 @@ export const videoConfig = {
   height: 1920,         // 高度 (竖屏)
 };
 ```
+
+### 添加背景视频
+
+**方式 1：通过命令行参数（推荐）**
+
+```bash
+./scripts/script-to-video.sh scripts/my-script.txt \
+  --bg-video /path/to/background.mp4 \   # 背景视频路径
+  --bg-opacity 0.4 \                     # 透明度 (0-1, 默认 0.3)
+  --bg-overlay "rgba(10, 10, 15, 0.6)"   # 遮罩颜色 (可选)
+```
+
+**方式 2：手动编辑配置文件**
+
+编辑 `src/scenes-data.ts`:
+
+```typescript
+export const videoConfig = {
+  fps: 30,
+  width: 1080,
+  height: 1920,
+  durationInFrames: 450,
+  audioPath: 'audio.mp3',
+  bgVideo: 'background.mp4',              // 背景视频 (放在 public/)
+  bgOpacity: 0.4,                         // 透明度
+  bgOverlayColor: 'rgba(10, 10, 15, 0.6)', // 遮罩颜色
+};
+```
+
+**透明度建议：**
+- `0.2-0.3` - 背景若隐若现，文字非常清晰（推荐用于文字密集内容）
+- `0.4-0.5` - 背景较明显，文字仍然清晰（推荐用于平衡效果）
+- `0.6-0.8` - 背景很明显，需要更深的遮罩层（推荐用于视觉效果优先）
 
 ### 自定义场景检测规则
 

@@ -18,7 +18,22 @@ clawhub install video-generator
 
 ### Step 2: Clone & Setup the Project
 
-**Option A: From GitHub (Recommended)**
+**Option A: Via npm (Recommended)**
+
+```bash
+# Install globally
+npm install -g openclaw-video
+
+# Clone for full features
+git clone https://github.com/ZhenRobotics/openclaw-video.git ~/openclaw-video
+cd ~/openclaw-video
+npm install
+
+# Configure API key (create .env file)
+echo 'OPENAI_API_KEY="sk-your-key-here"' > .env
+```
+
+**Option B: From GitHub Only**
 
 ```bash
 # Clone to standard location
@@ -28,14 +43,8 @@ cd ~/openclaw-video
 # Install dependencies
 npm install
 
-# Set API key
-export OPENAI_API_KEY="sk-your-key-here"
-```
-
-**Option B: Via npm (Coming Soon)**
-
-```bash
-npm install -g openclaw-video
+# Configure API key
+echo 'OPENAI_API_KEY="sk-your-key-here"' > .env
 ```
 
 ### Step 3: Verify Installation
@@ -78,7 +87,9 @@ Complete video generation pipeline:
 - ⏱️ **Timestamp Extraction** - OpenAI Whisper API for precise segmentation
 - 🎬 **Scene Orchestration** - Intelligent detection of 6 scene types
 - 🎨 **Video Rendering** - Remotion with cyber-wireframe aesthetics
+- 🖼️ **Background Video** - Custom background videos with opacity control (v1.2.0+)
 - 🤖 **Agent Interface** - Natural language interaction
+- 🎨 **Color Customization** - Custom colors for scene titles (v1.1.0+)
 
 ---
 
@@ -103,7 +114,13 @@ When user requests video generation, execute:
 # Method 2: CLI
 cd ~/openclaw-video && ./agents/video-cli.sh generate "script content"
 
-# Method 3: Full Agent (for complex requests)
+# Method 3: Full pipeline with background video
+cd ~/openclaw-video && ./scripts/script-to-video.sh scripts/script.txt \
+  --voice nova --speed 1.15 \
+  --bg-video /path/to/background.mp4 \
+  --bg-opacity 0.4
+
+# Method 4: Full Agent (for complex requests)
 cd ~/openclaw-video && pnpm exec tsx agents/video-agent.ts "generate video: script content"
 ```
 
@@ -114,6 +131,16 @@ User says: "Generate video: AI makes development easier"
 Execute:
 ```bash
 ~/openclaw-video/generate-for-openclaw.sh "AI makes development easier"
+```
+
+**Example with background video**:
+
+User says: "Generate video with a tech background"
+
+Execute:
+```bash
+cd ~/openclaw-video && ./scripts/script-to-video.sh scripts/script.txt \
+  --bg-video public/tech-bg.mp4 --bg-opacity 0.4
 ```
 
 ### Other Operations
@@ -146,6 +173,16 @@ Generated video saved at: `~/openclaw-video/out/generated.mp4`
 - Range: 0.25 - 4.0
 - Recommended: 1.15 (fast-paced short videos)
 - Default: 1.0
+
+### Background Video (New in v1.2.0)
+- `--bg-video <path>` - Path to background video file
+- `--bg-opacity <0-1>` - Background opacity (default: 0.3)
+- `--bg-overlay <color>` - Overlay color for text visibility (default: rgba(10, 10, 15, 0.6))
+
+**Recommended opacity values:**
+- 0.2-0.3: Text-focused content
+- 0.4-0.5: Balanced effect
+- 0.6-0.8: Background-focused content
 
 ### Video Style
 - Fast-paced short video (default)
@@ -250,7 +287,12 @@ cd ~/openclaw-video && npm install
 **Solution**:
 - Use a paid OpenAI account (minimum $5 balance)
 - Verify API key has TTS + Whisper access
-- Set environment variable: `export OPENAI_API_KEY="sk-..."`
+- **Recommended**: Create `.env` file in project root:
+  ```bash
+  cd ~/openclaw-video
+  echo 'OPENAI_API_KEY="sk-your-key-here"' > .env
+  ```
+- Alternative: Set environment variable: `export OPENAI_API_KEY="sk-..."`
 
 ### Issue 3: Missing Dependencies
 
@@ -288,10 +330,11 @@ npm install
 
 ## ⚠️ Important Notes
 
-1. **Environment Variable**: Valid `OPENAI_API_KEY` required
+1. **API Configuration**: Valid `OPENAI_API_KEY` required (use `.env` file for security)
 2. **Project Installation**: Must clone and install project before use
 3. **Network Required**: TTS and Whisper APIs need internet connection
 4. **Path Assumption**: Default project location is `~/openclaw-video/`, adjust if different
+5. **npm Package**: Available on npm (`npm install -g openclaw-video`)
 
 ---
 
@@ -327,7 +370,22 @@ When using this skill, agents should:
 
 ## 🆕 Version History
 
-### v1.0.1 (2026-03-03)
+### v1.2.0 (2026-03-07)
+- ✨ **NEW**: Background video support with customizable opacity
+- 🎨 **NEW**: Background overlay color customization
+- 🔧 **ENHANCED**: Command-line parameters for background video
+- 📝 **UPDATED**: Documentation with background video examples
+- ✅ **TESTED**: Full pipeline integration with background videos
+
+### v1.1.0 (2026-03-05)
+- ✨ **NEW**: Custom color support for scene titles
+- 🔐 **SECURITY**: Removed hardcoded API keys, now uses `.env` file
+- 📦 **npm**: Published to npm registry (install with `npm install -g openclaw-video`)
+- 🛠️ Enhanced script portability with relative paths
+- 📚 Added OpenClaw Chat integration guide
+- 🎯 Better error messages and validation
+
+### v1.0.2 (2026-03-03)
 - ✨ Optimized installation guide with universal paths
 - 📝 Improved documentation structure
 - 🛠️ Added troubleshooting guide

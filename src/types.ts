@@ -9,6 +9,8 @@ export interface SceneData {
   highlight?: string;   // Optional text to highlight
   xiaomo?: XiaomoAction; // Optional mascot action
   color?: string;       // Optional main title color (e.g., '#FF0000')
+  bgVideo?: string;     // Optional background video for this scene
+  bgOpacity?: number;   // Optional background video opacity (0-1, default 0.3)
 }
 
 export type SceneType =
@@ -34,4 +36,7 @@ export interface VideoConfig {
   height: number;
   durationInFrames: number;
   audioPath?: string;
+  bgVideo?: string;         // Optional global background video path
+  bgOpacity?: number;       // Optional global background video opacity (0-1, default 0.3)
+  bgOverlayColor?: string;  // Optional overlay color for better text visibility (e.g., 'rgba(10, 10, 15, 0.6)')
 }

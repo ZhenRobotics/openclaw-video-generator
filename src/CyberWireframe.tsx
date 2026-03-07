@@ -5,26 +5,56 @@ import {
   useVideoConfig,
   Sequence,
   Audio,
+  Video,
   staticFile,
 } from 'remotion';
 import { scenes, videoConfig } from './scenes-data';
 import { SceneRenderer } from './SceneRenderer';
 
-export const CyberWireframe: React.FC<{ audioPath?: string }> = ({ audioPath }) => {
+export const CyberWireframe: React.FC<{
+  audioPath?: string;
+  bgVideo?: string;
+  bgOpacity?: number;
+  bgOverlayColor?: string;
+}> = ({ audioPath, bgVideo, bgOpacity, bgOverlayColor }) => {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   const currentTime = frame / fps;
 
-  // Use prop audioPath if provided, otherwise fall back to videoConfig
+  // Use prop values if provided, otherwise fall back to videoConfig
   const finalAudioPath = audioPath || videoConfig.audioPath;
+  const finalBgVideo = bgVideo || videoConfig.bgVideo;
+  const finalBgOpacity = bgOpacity !== undefined ? bgOpacity : (videoConfig.bgOpacity ?? 0.3);
+  const finalBgOverlayColor = bgOverlayColor || videoConfig.bgOverlayColor || 'rgba(10, 10, 15, 0.6)';
 
   return (
     <AbsoluteFill
       style={{
-        backgroundColor: '#0A0A0F', // Dark background
+        backgroundColor: '#0A0A0F', // Dark background (fallback)
         fontFamily: 'Arial, sans-serif',
       }}
     >
+      {/* Global background video layer */}
+      {finalBgVideo && (
+        <Video
+          src={staticFile(finalBgVideo)}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            opacity: finalBgOpacity,
+          }}
+          volume={0}
+          loop
+        />
+      )}
+
+      {/* Dark overlay for better text visibility */}
+      {finalBgVideo && (
+        <AbsoluteFill style={{ backgroundColor: finalBgOverlayColor }} />
+      )}
+
       {/* Audio track (if available) */}
       {finalAudioPath && (
         <Audio src={staticFile(finalAudioPath)} />

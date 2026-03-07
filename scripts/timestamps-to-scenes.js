@@ -10,12 +10,20 @@ const path = require('path');
 function usage() {
   console.error(`
 Usage:
-  timestamps-to-scenes.js <timestamps.json> [--out scenes-data.ts] [--audio audio.mp3]
+  timestamps-to-scenes.js <timestamps.json> [options]
 
-Example:
+Options:
+  --out <file>           Output file path (default: src/scenes-data.ts)
+  --audio <file>         Audio file path
+  --bg-video <file>      Background video file (will be copied to public/)
+  --bg-opacity <number>  Background video opacity (0-1, default: 0.3)
+  --bg-overlay <color>   Background overlay color (default: rgba(10, 10, 15, 0.6))
+
+Examples:
   timestamps-to-scenes.js audio/example-timestamps.json
   timestamps-to-scenes.js audio/example-timestamps.json --out src/scenes-data.ts
   timestamps-to-scenes.js audio/generated-timestamps.json --audio audio/generated.mp3
+  timestamps-to-scenes.js audio/generated-timestamps.json --bg-video public/background.mp4 --bg-opacity 0.5
 `);
   process.exit(2);
 }
@@ -28,6 +36,9 @@ if (args.length === 0 || args[0] === '-h' || args[0] === '--help') {
 const inputFile = args[0];
 let outputFile = 'src/scenes-data.ts';
 let audioPath = undefined;
+let bgVideoPath = undefined;
+let bgOpacity = 0.3;
+let bgOverlayColor = 'rgba(10, 10, 15, 0.6)';
 
 // Parse args
 for (let i = 1; i < args.length; i++) {
@@ -36,6 +47,15 @@ for (let i = 1; i < args.length; i++) {
     i++;
   } else if (args[i] === '--audio' && i + 1 < args.length) {
     audioPath = args[i + 1];
+    i++;
+  } else if (args[i] === '--bg-video' && i + 1 < args.length) {
+    bgVideoPath = args[i + 1];
+    i++;
+  } else if (args[i] === '--bg-opacity' && i + 1 < args.length) {
+    bgOpacity = parseFloat(args[i + 1]);
+    i++;
+  } else if (args[i] === '--bg-overlay' && i + 1 < args.length) {
+    bgOverlayColor = args[i + 1];
     i++;
   }
 }
@@ -65,6 +85,33 @@ if (!audioPath && inputFile.includes('-timestamps.json')) {
   } else {
     console.log(`⚠️  Audio file not found: ${fullAudioPath}`);
     audioPath = undefined;
+  }
+}
+
+// Process background video if provided
+if (bgVideoPath) {
+  const fullBgVideoPath = path.resolve(bgVideoPath);
+
+  if (fs.existsSync(fullBgVideoPath)) {
+    const bgVideoFileName = path.basename(fullBgVideoPath);
+    const scriptDir = __dirname.endsWith('scripts') ? path.join(__dirname, '..') : __dirname;
+    const publicBgVideoPath = path.resolve(scriptDir, 'public', bgVideoFileName);
+
+    // Create public directory if it doesn't exist
+    const publicDir = path.dirname(publicBgVideoPath);
+    if (!fs.existsSync(publicDir)) {
+      fs.mkdirSync(publicDir, { recursive: true });
+    }
+
+    // Copy to public directory
+    fs.copyFileSync(fullBgVideoPath, publicBgVideoPath);
+    console.log(`🎬 Copied background video to: ${publicBgVideoPath}`);
+
+    // Use filename only (relative to public/)
+    bgVideoPath = bgVideoFileName;
+  } else {
+    console.log(`⚠️  Background video file not found: ${fullBgVideoPath}`);
+    bgVideoPath = undefined;
   }
 }
 
@@ -154,7 +201,10 @@ export const videoConfig = {
   width: 1080,
   height: 1920,  // Vertical video for 视频号
   durationInFrames: ${durationInFrames},  // ${duration.toFixed(2)} seconds * 30 fps
-  audioPath: ${audioPath ? `'${audioPath}'` : 'undefined'},  // Audio file path (relative to public/)
+  audioPath: ${audioPath ? `'${audioPath}'` : 'undefined'},  // Audio file path (relative to public/)${bgVideoPath ? `
+  bgVideo: '${bgVideoPath}',  // Background video file (relative to public/)
+  bgOpacity: ${bgOpacity},  // Background video opacity (0-1)
+  bgOverlayColor: '${bgOverlayColor}',  // Overlay color for better text visibility` : ''}
 };
 `;
 
