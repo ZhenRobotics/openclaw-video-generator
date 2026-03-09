@@ -17,7 +17,7 @@ requires:
       source: npm
       version: ">=1.3.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: HEAD  # Will be updated after commit
+      verified_commit: 6ddcb7c  # v1.3.0 commit
 ---
 
 # 🎬 Video Generator Skill
