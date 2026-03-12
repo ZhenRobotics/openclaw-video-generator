@@ -47,19 +47,50 @@ export async function generate_tts(params: TTSParams): Promise<{ success: boolea
   try {
     const { text, voice = 'nova', speed = 1.15, output_file } = params;
 
+    // Clean text: remove any JSON metadata or timeout suffixes
+    // Pattern: remove anything like ",timeout:123}" or similar JSON artifacts
+    let cleanText = text.trim();
+
+    // Remove JSON metadata patterns (e.g., ",timeout:123}", ",maxTokens:456}")
+    cleanText = cleanText.replace(/,\s*(timeout|maxTokens|temperature|metadata)[:\s]*[^}]*}?\s*$/gi, '');
+
+    // Remove trailing commas and braces
+    cleanText = cleanText.replace(/[,}\s]+$/, '').trim();
+
+    // Log for debugging
+    if (cleanText !== text.trim()) {
+      console.log('[TTS] Cleaned text (removed metadata)');
+      console.log(`[TTS] Original length: ${text.length}, Clean length: ${cleanText.length}`);
+    }
+
     // Ensure output path
     const audioPath = path.join(AUDIO_DIR, output_file);
 
-    // Call TTS script
-    const cmd = `cd ${WORK_DIR} && ./scripts/tts-generate.sh "${text.replace(/"/g, '\\"')}" --out "${audioPath}" --voice ${voice} --speed ${speed}`;
+    // Write text to temporary file to avoid shell escaping issues
+    const tmpFile = path.join(AUDIO_DIR, `.tmp-text-${Date.now()}.txt`);
+    fs.writeFileSync(tmpFile, cleanText, 'utf-8');
 
-    console.log('[TTS] Generating speech...');
-    const result = execSync(cmd, { encoding: 'utf-8' });
+    try {
+      // Call TTS script - use Bash to safely read from file
+      const scriptPath = path.join(WORK_DIR, 'scripts/tts-generate.sh');
+      const cmd = `bash -c 'cd "${WORK_DIR}" && "${scriptPath}" "$(<"${tmpFile}")" --out "${audioPath}" --voice "${voice}" --speed "${speed}"'`;
 
-    return {
-      success: true,
-      audio_path: audioPath,
-    };
+      console.log('[TTS] Generating speech...');
+      console.log(`[TTS] Text length: ${cleanText.length} chars`);
+      const result = execSync(cmd, { encoding: 'utf-8' });
+
+      return {
+        success: true,
+        audio_path: audioPath,
+      };
+    } finally {
+      // Clean up temp file
+      try {
+        fs.unlinkSync(tmpFile);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    }
   } catch (error) {
     return {
       success: false,
