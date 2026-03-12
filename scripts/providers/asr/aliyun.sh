@@ -25,14 +25,38 @@ fi
 
 mkdir -p "$(dirname "$output")"
 
-# TODO: 实现阿里云语音识别 API 调用
-# 需要：
-# 1. 使用 NLS SDK 或 RESTful API
-# 2. 获取时间戳信息
-# 3. 转换为统一的 JSON 格式
+# 调用 Python 实现（使用一句话识别，不提供精确时间戳）
+python_script="$(dirname "$0")/aliyun_asr_fixed.py"
 
-echo "⚠️  Aliyun ASR: Not implemented yet" >&2
-echo "   Please configure OpenAI Whisper as alternative" >&2
+if [[ ! -f "$python_script" ]]; then
+  echo "❌ Aliyun ASR: Python script not found: $python_script" >&2
+  exit 1
+fi
+
+# 检查 Python 3
+if ! command -v python3 &> /dev/null; then
+  echo "❌ Aliyun ASR: python3 not found" >&2
+  echo "   Install: apt install python3 (Ubuntu) or brew install python3 (macOS)" >&2
+  exit 1
+fi
+
+# 调用 Python 脚本并重试
+max_retries=3
+for i in $(seq 1 $max_retries); do
+  if python3 "$python_script" "$audio" "$output" "$language" 2>&1; then
+    if [[ -f "$output" && -s "$output" ]]; then
+      exit 0
+    fi
+  fi
+
+  if [[ $i -lt $max_retries ]]; then
+    echo "⚠️  Aliyun ASR: Attempt $i failed, retrying..." >&2
+    sleep 2
+  fi
+done
+
+echo "❌ Aliyun ASR: Failed after $max_retries attempts" >&2
 exit 1
 
-# 参考文档: https://help.aliyun.com/document_detail/84428.html
+# 注意: 阿里云一句话识别不提供时间戳
+# 如需精确时间戳，请使用 OpenAI Whisper 或 Azure Speech

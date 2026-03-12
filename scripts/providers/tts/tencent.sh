@@ -6,7 +6,7 @@ set -euo pipefail
 # Input: text, output_file, voice, speed
 text="${1:-}"
 output="${2:-}"
-voice="${3:-${TENCENT_TTS_VOICE:-101001}}"
+voice="${3:-${TENCENT_TTS_VOICE:-0}}"  # 0: 女声, 1: 男声
 speed="${4:-1.0}"
 
 if [[ -z "$text" || -z "$output" ]]; then
@@ -14,22 +14,42 @@ if [[ -z "$text" || -z "$output" ]]; then
   exit 1
 fi
 
-if [[ -z "${TENCENT_SECRET_ID:-}" || -z "${TENCENT_SECRET_KEY:-}" || -z "${TENCENT_APP_ID:-}" ]]; then
-  echo "Error: TENCENT_SECRET_ID, TENCENT_SECRET_KEY, or TENCENT_APP_ID not set" >&2
+if [[ -z "${TENCENT_SECRET_ID:-}" || -z "${TENCENT_SECRET_KEY:-}" ]]; then
+  echo "Error: TENCENT_SECRET_ID or TENCENT_SECRET_KEY not set" >&2
   exit 1
 fi
 
 mkdir -p "$(dirname "$output")"
 
-# TODO: 实现腾讯云 TTS API 调用
-# 需要：
-# 1. 计算 TC3-HMAC-SHA256 签名
-# 2. 构造请求参数
-# 3. 调用 TTS API (tts.tencentcloudapi.com)
-# 4. 处理响应（Base64 解码音频）
+# 调用 Python 实现
+python_script="$(dirname "$0")/tencent_tts_simple.py"
 
-echo "⚠️  Tencent TTS: Not implemented yet" >&2
-echo "   Please configure OpenAI or Azure as alternative" >&2
+if [[ ! -f "$python_script" ]]; then
+  echo "❌ Tencent TTS: Python script not found: $python_script" >&2
+  exit 1
+fi
+
+# 检查 Python 3
+if ! command -v python3 &> /dev/null; then
+  echo "❌ Tencent TTS: python3 not found" >&2
+  echo "   Install: apt install python3 (Ubuntu) or brew install python3 (macOS)" >&2
+  exit 1
+fi
+
+# 调用 Python 脚本并重试
+max_retries=3
+for i in $(seq 1 $max_retries); do
+  if python3 "$python_script" "$text" "$output" "$voice" "$speed" 2>&1; then
+    if [[ -f "$output" && -s "$output" ]]; then
+      exit 0
+    fi
+  fi
+
+  if [[ $i -lt $max_retries ]]; then
+    echo "⚠️  Tencent TTS: Attempt $i failed, retrying..." >&2
+    sleep 2
+  fi
+done
+
+echo "❌ Tencent TTS: Failed after $max_retries attempts" >&2
 exit 1
-
-# 参考文档: https://cloud.tencent.com/document/product/1073/37995

@@ -21,15 +21,35 @@ fi
 
 mkdir -p "$(dirname "$output")"
 
-# TODO: 实现阿里云 TTS API 调用
-# 需要：
-# 1. 计算签名（使用 AccessKey）
-# 2. 构造请求参数
-# 3. 调用 nls-gateway API
-# 4. 处理响应
+# 调用 Python 实现（简化版，只需 requests 库）
+python_script="$(dirname "$0")/aliyun_tts_fixed.py"
 
-echo "⚠️  Aliyun TTS: Not implemented yet" >&2
-echo "   Please configure OpenAI or Azure as alternative" >&2
+if [[ ! -f "$python_script" ]]; then
+  echo "❌ Aliyun TTS: Python script not found: $python_script" >&2
+  exit 1
+fi
+
+# 检查 Python 3
+if ! command -v python3 &> /dev/null; then
+  echo "❌ Aliyun TTS: python3 not found" >&2
+  echo "   Install: apt install python3 (Ubuntu) or brew install python3 (macOS)" >&2
+  exit 1
+fi
+
+# 调用 Python 脚本并重试
+max_retries=3
+for i in $(seq 1 $max_retries); do
+  if python3 "$python_script" "$text" "$output" "$voice" "$speed" 2>&1; then
+    if [[ -f "$output" && -s "$output" ]]; then
+      exit 0
+    fi
+  fi
+
+  if [[ $i -lt $max_retries ]]; then
+    echo "⚠️  Aliyun TTS: Attempt $i failed, retrying..." >&2
+    sleep 2
+  fi
+done
+
+echo "❌ Aliyun TTS: Failed after $max_retries attempts" >&2
 exit 1
-
-# 参考文档: https://help.aliyun.com/document_detail/84435.html
