@@ -13,12 +13,20 @@ clean_json_params() {
     local cleaned
     cleaned=$(echo "$input" | sed -E 's/,\s*(timeout|maxTokens|temperature|metadata)[:\s]*[^}]*}?\s*$//')
 
-    # Remove trailing commas and braces
-    cleaned=$(echo "$cleaned" | sed -E 's/[,}]\s*$//')
+    # Check if this looks like JSON (starts with { or [)
+    if [[ "$input" =~ ^\s*[\{\[] ]]; then
+        # It's JSON, ensure proper closing
+        cleaned=$(echo "$cleaned" | sed -E 's/,\s*$//')  # Remove trailing commas
 
-    # If no closing brace, add one
-    if [[ ! "$cleaned" =~ }$ ]]; then
-        cleaned="${cleaned}}"
+        # If JSON but missing closing brace, add one
+        if [[ "$cleaned" =~ ^\{ ]] && [[ ! "$cleaned" =~ }$ ]]; then
+            cleaned="${cleaned}}"
+        elif [[ "$cleaned" =~ ^\[ ]] && [[ ! "$cleaned" =~ \]$ ]]; then
+            cleaned="${cleaned}]"
+        fi
+    else
+        # Not JSON, just clean up without adding braces
+        cleaned=$(echo "$cleaned" | sed -E 's/[,}]\s*$//')
     fi
 
     echo "$cleaned"

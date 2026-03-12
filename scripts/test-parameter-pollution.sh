@@ -13,14 +13,14 @@ echo ""
 # 加载清理函数
 source scripts/clean-json-params.sh
 
-# 测试用例
+# 测试用例 (使用 | 分隔符)
 declare -a test_cases=(
-    "normal.mp3:normal.mp3:clean"
-    "test.mp3,timeout:30000}:test.mp3:polluted_file"
-    "{\"audioPath\":\"user.mp3\"}:{\"audioPath\":\"user.mp3\"}:clean_json"
-    "{\"audioPath\":\"user.mp3\"},timeout:1200}:{\"audioPath\":\"user.mp3\"}:polluted_json"
-    "/path/to/file.json,maxTokens:1000}:/path/to/file.json:polluted_path"
-    "test-123.mp3,temperature:0.7}:test-123.mp3:polluted_with_float"
+    "normal.mp3|normal.mp3|clean"
+    "test.mp3,timeout:30000}|test.mp3|polluted_file"
+    "{\"audioPath\":\"user.mp3\"}|{\"audioPath\":\"user.mp3\"}|clean_json"
+    "{\"audioPath\":\"user.mp3\"},timeout:1200}|{\"audioPath\":\"user.mp3\"}|polluted_json"
+    "/path/to/file.json,maxTokens:1000}|/path/to/file.json|polluted_path"
+    "test-123.mp3,temperature:0.7}|test-123.mp3|polluted_with_float"
 )
 
 test_count=0
@@ -32,7 +32,7 @@ echo "-----------"
 echo ""
 
 for test_case in "${test_cases[@]}"; do
-    IFS=':' read -r input expected description <<< "$test_case"
+    IFS='|' read -r input expected description <<< "$test_case"
 
     test_count=$((test_count + 1))
 
