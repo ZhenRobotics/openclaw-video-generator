@@ -186,10 +186,21 @@ MIT License - See LICENSE file for details
 
 ### Support
 
-For issues or questions:
-1. Check GitHub Issues
-2. Read documentation in repository
-3. Create new issue with details
+#### 🤝 Official Maintenance Partner
+
+**Need help with deployment or customization?** Our official maintenance partner provides technical support:
+
+- **Contact**: 专注人工智能的黄纪恩学长 (闲鱼 Xianyu)
+- **Services**:
+  - ✅ Deployment troubleshooting
+  - ✅ Provider integration (OpenAI/Azure/Aliyun/Tencent)
+  - ✅ Custom configuration
+  - ✅ Technical consulting
+
+#### Community Support
+
+- **GitHub Issues**: [Report bugs & request features](https://github.com/ZhenRobotics/openclaw-video-generator/issues)
+- **Documentation**: See GitHub repository for detailed docs
 
 ---
 
@@ -385,10 +396,21 @@ MIT License - 详见 LICENSE 文件
 
 ### 支持
 
-如有问题或疑问：
-1. 查看 GitHub Issues
-2. 阅读仓库中的文档
-3. 创建新 issue 并提供详细信息
+#### 🤝 官方维护合作伙伴
+
+**部署遇到问题？需要定制开发？** 我们的官方维护合作伙伴提供技术支持：
+
+- **联系方式**: 专注人工智能的黄纪恩学长（闲鱼）
+- **服务内容**:
+  - ✅ 部署问题排查
+  - ✅ 多厂商集成配置（OpenAI/Azure/阿里云/腾讯云）
+  - ✅ 自定义配置调优
+  - ✅ 技术咨询服务
+
+#### 社区支持
+
+- **GitHub Issues**: [报告 Bug 和功能请求](https://github.com/ZhenRobotics/openclaw-video-generator/issues)
+- **文档**: 详细文档见 GitHub 仓库
 
 ---
 
