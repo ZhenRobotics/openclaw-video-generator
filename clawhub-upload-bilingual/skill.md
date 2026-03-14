@@ -48,7 +48,7 @@ requires:
       source: npm
       version: ">=1.5.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 63b6101  # v1.5.0 - Cyber Design System & Testing Suite (main branch)
+      verified_commit: 1f92ee3  # v1.5.0 - Complete ClawHub metadata (install spec + API keys)
 install:
   commands:
     - npm install -g openclaw-video-generator@latest
