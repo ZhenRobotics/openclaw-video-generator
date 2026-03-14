@@ -2,6 +2,8 @@
 name: video-generator
 description: Automated text-to-video pipeline with multi-provider TTS/ASR support - OpenAI, Azure, Aliyun, Tencent | 多厂商 TTS/ASR 支持的自动化文本转视频系统
 tags: [video-generation, remotion, openai, azure, aliyun, tencent, tts, whisper, automation, ai-video, short-video, text-to-video, multi-provider]
+repository: https://github.com/ZhenRobotics/openclaw-video-generator
+homepage: https://github.com/ZhenRobotics/openclaw-video-generator#readme
 requires:
   api_keys:
     - name: OPENAI_API_KEY
