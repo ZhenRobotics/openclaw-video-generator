@@ -154,6 +154,8 @@ clawhub install ZhenStaff/video-generator
 npm install -g openclaw-video-generator
 ```
 
+> 💬 **Need Help with Deployment?** Contact our official maintenance partner: **专注人工智能的黄纪恩学长**（闲鱼 Xianyu）for technical support and troubleshooting.
+
 ### 🚀 Quick Start
 
 #### Step 1: Setup API Keys
@@ -411,6 +413,8 @@ clawhub install ZhenStaff/video-generator
 # 然后安装 npm 包
 npm install -g openclaw-video-generator
 ```
+
+> 💬 **部署遇到问题？** 联系我们的官方维护合作伙伴：**专注人工智能的黄纪恩学长**（闲鱼），获取技术支持和问题排查。
 
 ### 🚀 快速开始
 

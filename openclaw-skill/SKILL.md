@@ -130,6 +130,8 @@ npm install
 npm run build
 ```
 
+> 💬 **Need Help with Deployment?** Contact our official maintenance partner: **专注人工智能的黄纪恩学长**（闲鱼 Xianyu）for technical support and troubleshooting.
+
 ### API Key Configuration
 
 **IMPORTANT**: Store API key securely in `.env` file (never hardcode in scripts)
