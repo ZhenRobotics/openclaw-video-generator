@@ -150,7 +150,7 @@ openclaw-video-generator --help
 
 ```bash
 # Install skill
-clawhub install ZhenStaff/video-generator
+clawhub install video-generator
 
 # Then install npm package
 npm install -g openclaw-video-generator
@@ -410,7 +410,7 @@ openclaw-video-generator --help
 
 ```bash
 # 安装技能
-clawhub install ZhenStaff/video-generator
+clawhub install video-generator
 
 # 然后安装 npm 包
 npm install -g openclaw-video-generator
