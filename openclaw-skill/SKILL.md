@@ -1,23 +1,54 @@
 ---
 name: video-generator
-description: Automated text-to-video pipeline using OpenAI TTS/Whisper and Remotion - transforms scripts into professional short videos locally
-tags: [video-generation, remotion, openai, tts, whisper, automation, ai-video, short-video, text-to-video]
+description: Automated text-to-video pipeline with multi-provider TTS/ASR support - OpenAI, Azure, Aliyun, Tencent | 多厂商 TTS/ASR 支持的自动化文本转视频系统
+tags: [video-generation, remotion, openai, azure, aliyun, tencent, tts, whisper, automation, ai-video, short-video, text-to-video, multi-provider]
 requires:
   api_keys:
     - name: OPENAI_API_KEY
-      description: OpenAI API key for TTS and Whisper services
+      description: OpenAI API key for TTS and Whisper services (default provider - required unless using Azure/Aliyun/Tencent) | OpenAI API 密钥（默认提供商 - 除非使用 Azure/阿里云/腾讯云，否则必需）
       url: https://platform.openai.com/api-keys
+      optional: false
+    - name: ALIYUN_ACCESS_KEY_ID
+      description: Aliyun AccessKey ID (optional, alternative provider) | 阿里云 AccessKey ID（可选，备选提供商）
+      url: https://ram.console.aliyun.com/manage/ak
+      optional: true
+    - name: ALIYUN_ACCESS_KEY_SECRET
+      description: Aliyun AccessKey Secret (required if using Aliyun) | 阿里云 AccessKey Secret（使用阿里云时必需）
+      optional: true
+    - name: ALIYUN_APP_KEY
+      description: Aliyun NLS App Key (required if using Aliyun TTS/ASR) | 阿里云 NLS 应用密钥（使用阿里云时必需）
+      url: https://ram.console.aliyun.com/manage/ak
+      optional: true
+    - name: AZURE_SPEECH_KEY
+      description: Azure Speech Service key (optional, alternative provider) | Azure 语音服务密钥（可选，备选提供商）
+      url: https://portal.azure.com/
+      optional: true
+    - name: AZURE_SPEECH_REGION
+      description: Azure Speech Service region (required if using Azure) | Azure 语音服务区域（使用 Azure 时必需）
+      optional: true
+    - name: TENCENT_SECRET_ID
+      description: Tencent Cloud Secret ID (optional, alternative provider) | 腾讯云 Secret ID（可选，备选提供商）
+      url: https://console.cloud.tencent.com/cam/capi
+      optional: true
+    - name: TENCENT_SECRET_KEY
+      description: Tencent Cloud Secret Key (required if using Tencent) | 腾讯云 Secret Key（使用腾讯云时必需）
+      optional: true
+    - name: TENCENT_APP_ID
+      description: Tencent Cloud App ID (required if using Tencent) | 腾讯云应用 ID（使用腾讯云时必需）
+      optional: true
   tools:
     - node>=18
     - npm
     - pnpm
     - ffmpeg
+    - python3
+    - jq
   packages:
     - name: openclaw-video-generator
       source: npm
-      version: ">=1.3.0"
+      version: ">=1.5.0"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 6ddcb7c  # v1.3.0 commit
+      verified_commit: 63b6101  # v1.5.0 - Cyber Design System & Testing Suite (main branch)
 ---
 
 # 🎬 Video Generator Skill

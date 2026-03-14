@@ -5,9 +5,9 @@ tags: [video-generation, remotion, openai, azure, aliyun, tencent, tts, whisper,
 requires:
   api_keys:
     - name: OPENAI_API_KEY
-      description: OpenAI API key for TTS and Whisper services (default provider, at least one provider required) | OpenAI API 密钥（默认提供商，至少需要一个提供商）
+      description: OpenAI API key for TTS and Whisper services (default provider - required unless using Azure/Aliyun/Tencent) | OpenAI API 密钥（默认提供商 - 除非使用 Azure/阿里云/腾讯云，否则必需）
       url: https://platform.openai.com/api-keys
-      optional: true
+      optional: false
     - name: ALIYUN_ACCESS_KEY_ID
       description: Aliyun AccessKey ID (optional, alternative provider) | 阿里云 AccessKey ID（可选，备选提供商）
       url: https://ram.console.aliyun.com/manage/ak
