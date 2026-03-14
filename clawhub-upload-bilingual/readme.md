@@ -58,6 +58,8 @@ npm install -g openclaw-video-generator
 clawhub install ZhenStaff/video-generator
 ```
 
+> 💬 **Need Help with Deployment?** Contact our official maintenance partner: **专注人工智能的黄纪恩学长**（闲鱼 Xianyu）for technical support and troubleshooting.
+
 #### Basic Usage
 
 ```bash
@@ -267,6 +269,8 @@ npm install -g openclaw-video-generator
 # 或通过 ClawHub
 clawhub install ZhenStaff/video-generator
 ```
+
+> 💬 **部署遇到问题？** 联系我们的官方维护合作伙伴：**专注人工智能的黄纪恩学长**（闲鱼），获取技术支持和问题排查。
 
 #### 基础使用
 
