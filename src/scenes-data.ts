@@ -1,66 +1,34 @@
 import { SceneData } from './types';
 
 // Auto-generated from Whisper timestamps
-// Generated at: 2026-03-03T05:39:57.189Z
+// Generated at: 2026-03-12T03:24:52.276Z
 export const scenes: SceneData[] = [
   {
     "start": 0,
-    "end": 2.4000000953674316,
+    "end": 7.665,
     "type": "title",
-    "title": "视频三家巨头同一天说了一件事",
+    "title": "字幕优化测试第一段验证字幕位置在底部第二段验证背景条清晰可见",
     "xiaomo": "peek"
   },
   {
-    "start": 2.4000000953674316,
-    "end": 5.599999904632568,
-    "type": "emphasis",
-    "title": "微软说Copilot已经能写掉90%的代码",
-    "highlight": "Copilot",
-    "xiaomo": "think"
-  },
-  {
-    "start": 5.599999904632568,
-    "end": 9,
-    "type": "pain",
-    "title": "OpenAI说GPT-5能替代大部分程序员",
-    "highlight": "GPT"
-  },
-  {
-    "start": 9,
-    "end": 11.800000190734863,
-    "type": "pain",
-    "title": "Google说Gemini 2.0改变游戏规则",
-    "highlight": "Gemini"
-  },
-  {
-    "start": 11.800000190734863,
-    "end": 13,
+    "start": 7.665,
+    "end": 10.476,
     "type": "content",
-    "title": "但真相是什么",
+    "title": "第三段验证霓虹发光效果",
     "xiaomo": "point"
   },
   {
-    "start": 13,
-    "end": 14.699999809265137,
+    "start": 10.476,
+    "end": 13.286,
     "type": "content",
-    "title": "AI不会取代开发者",
-    "highlight": "AI",
+    "title": "第四段验证滑入动画流畅",
     "xiaomo": "point"
   },
   {
-    "start": 14.699999809265137,
-    "end": 17.600000381469727,
-    "type": "content",
-    "title": "而是让优秀开发者效率提升10倍",
-    "highlight": "10倍",
-    "xiaomo": "point"
-  },
-  {
-    "start": 17.600000381469727,
-    "end": 19,
+    "start": 13.286,
+    "end": 18.396,
     "type": "end",
-    "title": "关注我学习AI工具",
-    "highlight": "AI",
+    "title": "第五段验证文字描边效果，测试完成查看效果",
     "xiaomo": "wave"
   }
 ];
@@ -70,6 +38,9 @@ export const videoConfig = {
   fps: 30,
   width: 1080,
   height: 1920,  // Vertical video for 视频号
-  durationInFrames: 570,  // 19.00 seconds * 30 fps
-  audioPath: 'generated.mp3',  // Audio file path (relative to public/)
+  durationInFrames: 552,  // 18.40 seconds * 30 fps
+  audioPath: 'subtitle-style-test.mp3',  // Audio file path (relative to public/)
+  bgVideo: '623cba348a101f1de29ce5b91d9a9679.mp4',  // Background video file (relative to public/)
+  bgOpacity: 0.7,  // Background video opacity (0-1)
+  bgOverlayColor: 'rgba(10, 10, 15, 0.25)',  // Overlay color for better text visibility
 };
