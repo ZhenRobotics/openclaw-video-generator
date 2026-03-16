@@ -41,7 +41,6 @@ requires:
   tools:
     - node>=18
     - npm
-    - pnpm
     - ffmpeg
     - python3
     - jq

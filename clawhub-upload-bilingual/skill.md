@@ -41,7 +41,6 @@ requires:
   tools:
     - node>=18
     - npm
-    - pnpm
     - ffmpeg
     - python3
     - jq
@@ -79,8 +78,8 @@ This skill is **safe and verified**:
 - ✅ Source code is **open source** and auditable
 - ✅ Uses official **npm package** (openclaw-video-generator)
 - ✅ **Verified repository**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **Verified commit**: 63b6101 (v1.5.0 - Cyber Design System & Testing Suite)
-- ✅ **No data collection** - all processing is local
+- ✅ **Verified commit**: e71dc9f (v1.5.0 - Complete ClawHub metadata)
+- ⚠️ **Privacy notice**: Your text/audio is sent to chosen cloud providers (OpenAI/Azure/Aliyun/Tencent) for TTS/ASR processing - review their privacy policies before use
 
 **Required API Access**:
 - **At least one TTS/ASR provider required**: OpenAI (recommended), Azure, Aliyun, or Tencent
@@ -90,7 +89,7 @@ This skill is **safe and verified**:
 
 ### ✨ What's New (Latest: v1.5.0)
 
-**🎨 v1.5.0 Major Update (Commit 63b6101)**:
+**🎨 v1.5.0 Major Update (verified_commit: e71dc9f)**:
 - **Cyber Design System** - 800+ lines of design tokens with WCAG AA compliance
 - **Typography System** - Orbitron/Rajdhani fonts for sci-fi aesthetic (+200%)
 - **Color System** - 15+ validated neon colors, all WCAG AA compliant (4.5:1+)
@@ -339,8 +338,8 @@ MIT License - See LICENSE file for details
 - ✅ 源代码**开源**且可审计
 - ✅ 使用官方 **npm 包**（openclaw-video-generator）
 - ✅ **已验证的仓库**: github.com/ZhenRobotics/openclaw-video-generator
-- ✅ **已验证的提交**: 63b6101 (v1.5.0 - 赛博设计系统与测试套件)
-- ✅ **无数据收集** - 所有处理均在本地
+- ✅ **已验证的提交**: e71dc9f (v1.5.0 - 完整 ClawHub 元数据)
+- ⚠️ **隐私提示**: 您的文本/音频将发送到选择的云提供商（OpenAI/Azure/阿里云/腾讯云）进行 TTS/ASR 处理 - 使用前请查看其隐私政策
 
 **所需 API 访问**：
 - **至少需要一个 TTS/ASR 提供商**: OpenAI（推荐）、Azure、阿里云或腾讯云
@@ -350,7 +349,7 @@ MIT License - See LICENSE file for details
 
 ### ✨ 最新功能（最新：v1.5.0）
 
-**🎨 v1.5.0 重大更新（提交 63b6101）**：
+**🎨 v1.5.0 重大更新（verified_commit: e71dc9f）**：
 - **赛博设计系统** - 800+ 行设计 token，WCAG AA 合规
 - **字体系统** - Orbitron/Rajdhani 科技感字体（+200%）
 - **颜色系统** - 15+ 验证霓虹色，全部 WCAG AA 合规（4.5:1+）
