@@ -11,15 +11,23 @@ export interface SceneData {
   color?: string;       // Optional main title color (e.g., '#FF0000')
   bgVideo?: string;     // Optional background video for this scene
   bgOpacity?: number;   // Optional background video opacity (0-1, default 0.3)
+  styleTheme?: 'cyber' | 'premium'; // Visual style theme (default: 'cyber')
 }
 
 export type SceneType =
+  // Cyber (existing styles)
   | 'title'       // Title scene with glitch effect
   | 'emphasis'    // Emphasis with slam effect
   | 'pain'        // Pain point scene
   | 'circle'      // Circle highlight with paw
   | 'content'     // Regular content scene
-  | 'end';        // Ending scene
+  | 'end'         // Ending scene
+  // Premium (new high-end styles)
+  | 'elegance'    // Elegant presentation (Apple-style)
+  | 'authority'   // Authoritative narrative (TED-style)
+  | 'luxury'      // Luxury texture (high-end brand)
+  | 'minimal'     // Minimal geometry (architecture)
+  | 'cinematic';  // Cinematic storytelling (trailer-style)
 
 export type XiaomoAction =
   | 'peek'        // Peeking from corner
