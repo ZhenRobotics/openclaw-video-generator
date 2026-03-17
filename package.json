@@ -1,6 +1,6 @@
 {
   "name": "openclaw-video-generator",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "Automated video generation pipeline with OpenAI TTS, Whisper, and Remotion - from text script to professional short videos",
   "main": "src/index.ts",
   "bin": {
@@ -52,9 +52,13 @@
   },
   "homepage": "https://github.com/ZhenRobotics/openclaw-video-generator#readme",
   "dependencies": {
+    "@remotion/noise": "^4.0.431",
+    "@remotion/three": "^4.0.431",
+    "@remotion/transitions": "^4.0.431",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "remotion": "^4.0.431"
+    "remotion": "^4.0.431",
+    "three": "^0.160.0"
   },
   "devDependencies": {
     "@remotion/cli": "^4.0.431",
