@@ -177,13 +177,21 @@ export const AuthorityScene: React.FC<PremiumSceneProps> = ({ scene }) => {
   return (
     <AbsoluteFill
       style={{
-        background: authority.background,
+        background: 'transparent',  // ✅ 透明背景，显示底层视频
         justifyContent: 'center',
         alignItems: 'center',
         padding: '80px',
       }}
     >
+      {/* Dark overlay for text readability - 移除，使用全局遮罩 */}
+
       {/* Quote line */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+        }}
+      >
       <div
         style={{
           position: 'absolute',
@@ -249,6 +257,7 @@ export const AuthorityScene: React.FC<PremiumSceneProps> = ({ scene }) => {
             {scene.subtitle}
           </p>
         )}
+      </div>
       </div>
     </AbsoluteFill>
   );
