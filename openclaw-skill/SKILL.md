@@ -49,7 +49,7 @@ requires:
       source: npm
       version: ">=1.6.2"
       verified_repo: https://github.com/ZhenRobotics/openclaw-video-generator
-      verified_commit: 67d9299  # v1.6.2 - Chinese TTS Integration & Subtitle Styles
+      verified_commit: 6279034  # v1.6.2 - Chinese TTS Integration & Subtitle Styles
 install:
   commands:
     - npm install -g openclaw-video-generator@latest
