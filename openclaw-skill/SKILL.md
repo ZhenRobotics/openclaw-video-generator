@@ -145,7 +145,7 @@ export OPENAI_API_KEY="sk-..."
 # WARNING: Command-line API keys are visible in 'ps aux' output to other users
 
 # Verify installation
-openclaw-video --version
+openclaw-video-generator --version
 ```
 
 **Method 2: From Source (Developer Recommended)**
