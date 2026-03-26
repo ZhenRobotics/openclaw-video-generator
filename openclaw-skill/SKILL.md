@@ -58,6 +58,12 @@ install:
   notes: |
     Requires at least one TTS/ASR provider API key.
     Set OPENAI_API_KEY for default provider, or configure alternative providers.
+
+    Optional tools (not required for end users):
+    - pnpm: Alternative to npm (npm works fine)
+    - tsx: Development tool (only for contributors)
+
+    All required system tools are listed in 'tools' section above.
 ---
 
 # 🎬 Video Generator Skill
@@ -244,6 +250,17 @@ Expected output:
 **DO NOT USE** for:
 - Video editing or clipping
 - Video playback or format conversion only
+
+**AUTONOMOUS INVOCATION CONTROL**:
+
+Users concerned about autonomous behavior can configure:
+- **Confirmation mode**: Require approval before each invocation
+- **Manual mode**: Disable auto-trigger, require explicit command
+- **Restricted mode**: Limit to specific contexts only
+
+See `AUTONOMOUS_INVOCATION_GUIDE.md` for configuration details.
+
+**Note**: This skill only creates files in `out/` directory and calls configured TTS/ASR APIs. No destructive operations.
 
 ---
 
